@@ -16,7 +16,7 @@ var infinityApp = angular.module('infinityApp', [
       return $http.get(API)
         .then(function (response) {
           if (typeof response.data !== 'undefined') {
-            $rootScope.lenders = response.data.lenders;
+            $rootScope.lenders = response.data.data;
             $rootScope.hasErrors = false;
             $rootScope.isLoading = false;
             return response.data;
