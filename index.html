@@ -1,0 +1,156 @@
+<html ng-app="infinityApp">
+  <head>
+    <script src="lib/angular.min.js"></script>
+    <script src="InfinityAppModule.js"></script>
+    <style>
+
+      body {
+        background-color: #E6EBF1;
+        height: 100%;
+        width: 100%;
+      }
+
+      #main-container {
+        margin: 25px;
+        background-color: #FFFFFF;
+        border-radius: 5px;
+        height: 100%;
+      }
+
+      #header-container {
+        border-bottom: solid 3px #f2f2f2;
+        padding: 15px 30px;
+        color: #51C1A7;
+        position: sticky;
+        top: 0px;
+        height: 100px;
+        background-color: #FFFFFF;
+      }
+
+      #lender-table {
+        width: 100%;
+        padding: 15px 30px;
+
+      }
+
+      #lender-table thead tr{
+        height: 30px;
+      }
+
+      #lender-table thead tr:nth-child(1) th {
+        position: sticky; 
+        top: 130px;
+        background-color: #FFFFFF;
+      }
+      #lender-table thead tr:nth-child(2) th {
+        position: sticky; 
+        top: 160px;
+        background-color: #FFFFFF;
+      }
+
+
+
+      #lender-table tbody {
+        /* display:block; */
+        /* overflow:auto; */
+        height: 500px;
+        padding-top: 50px;
+      }
+
+      #lender-table tbody tr {
+        height: 50px;
+      }
+
+      #lender-table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      .cell-center {
+        text-align: center;
+      }
+
+      .cell-left {
+        text-align: left;
+      }
+
+      #loader-container, #error-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #error-container {
+        padding-top: 100px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #reload-button {
+        margin-top: 10px;
+      }
+
+    </style>
+  </head>
+  <body ng-controller="infinityController">
+    <div id="main-container">
+      <div id="header-container">
+        <h1>Lender Maintenance</h1>
+      </div>
+      <div ng-if="isLoading && !hasErrors" id="loader-container">
+        <img src="http://cdn.lowgif.com/full/b89db598dfcfb29b-loading-bar-animated-gif-transparent-background-5.gif">
+      </div>
+      <div id="table-container" ng-if="lenders.length > 0 && !hasErrors">
+        <table id="lender-table">
+          <thead>
+            <tr class="first-row">
+              <th class="cell-left">Bank Code</th>
+              <th class="cell-left">Display Name</th>
+              <th>Type</th>
+              <th colspan=3>Comission</th>
+              <th>Balance Multiplier</th>
+              <th>Active</th>
+              <th>Hide</th>
+              <th>Edit</th>
+            </tr>
+            <tr class="second-row">
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>Upfront</th>
+              <th>Trail High</th>
+              <th>Trail Low</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            <tr ng-repeat="lender in lenders">
+              <td>//lender.attributes.code//</td>
+              <td>//lender.attributes.name//</td>
+              <td>//lender.attributes.type | capitalise//</td>
+              <td class="cell-center">%//lender.attributes.upfont_commission//</td>
+              <td class="cell-center">%//lender.attributes.high_trail_commission//</td>
+              <td class="cell-center">%//lender.attributes.low_trail_commission//</td>
+              <td class="cell-center">//lender.attributes.balance_multiplier//</td>
+              <td class="cell-center"><input type="checkbox" ng-model="lender.attributes.is_active"></td>
+              <td class="cell-center"><input type="checkbox" ng-model="lender.attributes.is_hidden"></td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+      <div ng-if="hasErrors" id="error-container">
+        <span>Error fetching data. Click to reload</span>
+        <button ng-click="getLenders()" id="reload-button">Reload Data</button>
+      </div>
+
+    </div>
+    <div>
+
+    </div>
+  </body>
+</html>
